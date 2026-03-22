@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MNote } from "../components/Methodology";
@@ -23,7 +24,7 @@ interface WalkForwardData {
 }
 
 async function loadWalkForward(objective: string): Promise<WalkForwardData> {
-  const resp = await fetch(`/data/walkforward_${objective}.json`);
+  const resp = await fetch(dataUrl(`walkforward_${objective}.json`));
   if (!resp.ok) throw new Error(`Failed to load walkforward_${objective}.json`);
   return resp.json();
 }

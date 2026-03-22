@@ -1,4 +1,6 @@
-# Open Asset Pricing Explorer
+# Factor Lab
+
+**[Live Site](https://bwuebben.github.io/opensource_ap/)**
 
 Interactive research dashboard for exploring **212 equity factors** from Chen & Zimmermann (2022), "[Open Source Cross-Sectional Asset Pricing](https://www.openassetpricing.com/)" (*Critical Finance Review*).
 
@@ -8,9 +10,9 @@ Built for researchers and practitioners who want to dig into the full cross-sect
 
 **212 long-short factor portfolios**, monthly returns from 1926 to 2024, spanning every major anomaly category: Value, Momentum, Quality, Size, Investment, Profitability, Risk, Accruals, and more.
 
-**131 macroeconomic time series** from [FRED-MD](https://research.stlouisfed.org/econ/mccracken/fred-databases/) (McCracken & Ng) plus supplemental FRED indicators, with McCracken-Ng stationarity transformations applied.
+**132 macroeconomic time series** from [FRED-MD](https://research.stlouisfed.org/econ/mccracken/fred-databases/) (McCracken & Ng) plus supplemental FRED indicators, with McCracken-Ng stationarity transformations applied.
 
-### 28 Dashboard Pages
+### 29 Dashboard Pages
 
 | Section | Pages |
 |---------|-------|
@@ -20,6 +22,7 @@ Built for researchers and practitioners who want to dig into the full cross-sect
 | **Styles & Portfolios** | Style Analysis (14 EW style groups), Style Portfolio Builder, Walk-Forward Optimization |
 | **Research** | Replication Tracker, Post-Publication Decay, Long/Short Decomposition, Regimes & Crises, Crowding & Overlap, Factor Momentum, Tail Risk, Factor Timing |
 | **Macro** | Macro Dashboard, Macro Dictionary, Factor-Macro Regressions |
+| **Reference** | Data Sources |
 
 ### Research Highlights
 
@@ -33,7 +36,7 @@ Built for researchers and practitioners who want to dig into the full cross-sect
 
 ```bash
 # Clone and install frontend dependencies
-git clone <repo-url> && cd opensource_ap
+git clone https://github.com/bwuebben/opensource_ap.git && cd opensource_ap
 cd dashboard && npm install
 
 # Start the dashboard (data is included in the repo)
@@ -67,9 +70,9 @@ FRED-MD data requires a manual CSV download from [McCracken's page](https://www.
 ```
 opensource_ap/
 ├── dashboard/                    # React + Vite + TypeScript frontend
-│   ├── public/data/              # 32 JSON files consumed by the frontend
+│   ├── public/data/              # 33 JSON files consumed by the frontend
 │   └── src/
-│       ├── pages/                # 28 page components
+│       ├── pages/                # 29 page components
 │       ├── components/           # Layout, FactorName, FactorInfoModal, etc.
 │       ├── PlotlyChart.tsx       # Custom Plotly wrapper
 │       └── dataLoader.ts        # Data fetch functions
@@ -113,6 +116,19 @@ You can add any FRED series to the dashboard:
 ## Building Other Apps with This Data
 
 See [data_pipeline/DATA_GUIDE.md](data_pipeline/DATA_GUIDE.md) for complete JSON schemas, date/return conventions, code examples in Python and JavaScript, and instructions for extending the dataset.
+
+## Deployment
+
+The site is a fully static SPA — no backend required. It auto-deploys to GitHub Pages on every push to `main` via GitHub Actions.
+
+**Live at**: https://bwuebben.github.io/opensource_ap/
+
+To build locally:
+
+```bash
+cd dashboard && npm run build
+# Output in dashboard/dist/ — serve with any static file server
+```
 
 ## Data Sources
 

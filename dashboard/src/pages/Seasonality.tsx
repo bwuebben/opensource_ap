@@ -4,6 +4,7 @@ import { useData } from "../hooks";
 import { loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface SeasonData {
   months: number[];
@@ -135,6 +136,13 @@ export default function Seasonality() {
           );
         })()}
       </div>
+      <Methodology>
+        <MNote title="Monthly Averages">Average return by calendar month across all available years:</MNote>
+        <MathBlock>{"$$\\bar{r}_m = \\frac{1}{N_m} \\sum_{y=1}^{N_m} r_{y,m}$$"}</MathBlock>
+        <MNote title="Cross-Factor Seasonality">The heatmap shows the average return by calendar month averaged across all factors, revealing systematic calendar effects in the cross-section of anomalies.</MNote>
+        <MNote title="Most Seasonal">Factors are ranked by the spread between their best and worst calendar month average returns: {"$\\max_m \\bar{r}_m - \\min_m \\bar{r}_m$"}.</MNote>
+        <MNote title="Data">Monthly long-short returns. Missing months are excluded (not zero-filled). Calendar months with fewer than 5 years of data are suppressed. No adjustment for time-varying risk or serial correlation.</MNote>
+      </Methodology>
     </div>
   );
 }

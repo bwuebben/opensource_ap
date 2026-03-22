@@ -3,6 +3,7 @@ import { useData } from "../hooks";
 import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MNote } from "../components/Methodology";
 import type { FactorStats, SignalDoc } from "../types";
 
 interface Filter {
@@ -226,6 +227,12 @@ export default function FactorScreener() {
           </tbody>
         </table>
       </div>
+
+      <Methodology>
+        <MNote title="Screening">Filters are applied conjunctively (AND logic) — a factor must pass all active criteria to be included. Thresholds are applied to full-sample statistics.</MNote>
+        <MNote title="Presets">"Strong Predictors" filters on Chen & Zimmermann signal quality rating. "High Sharpe Low Vol" screens for annualized Sharpe {"$\\geq$"} 0.5 and annualized volatility {"$\\leq$"} 15%. Preset thresholds can be adjusted after selection.</MNote>
+        <MNote title="Caveats">All statistics are in-sample. High Sharpe ratios may reflect survivorship in the published factor literature. No adjustments for multiple testing, transaction costs, or capacity constraints.</MNote>
+      </Methodology>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { loadDrawdowns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorSearch from "../components/FactorSearch";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
 const DEFAULT_FACTORS = ["Mom12m", "BM", "Size"];
@@ -121,6 +122,13 @@ export default function Drawdowns() {
           </table>
         </div>
       )}
+
+      <Methodology>
+        <MNote title="Drawdown">Peak-to-trough decline at each point in time:</MNote>
+        <MathBlock>{"$$DD_t = \\frac{V_t - \\max_{s \\leq t} V_s}{\\max_{s \\leq t} V_s}$$"}</MathBlock>
+        <MNote title="Return/DD Ratio">Ratio of annualized return to the absolute value of the maximum drawdown: {"$\\text{Ratio} = r_{ann} / |\\text{MDD}|$"}. Higher values indicate better compensation per unit of worst-case loss. This is analogous to the Calmar ratio.</MNote>
+        <MNote title="Data">Drawdowns are computed from the full cumulative return series. Maximum drawdown duration is measured in months from peak to recovery (or to end of sample if unrecovered).</MNote>
+      </Methodology>
     </div>
   );
 }

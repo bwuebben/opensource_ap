@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface DecadeData {
   decades: string[];
@@ -130,6 +131,12 @@ export default function DecadePerformance() {
           </tbody>
         </table>
       </div>
+      <Methodology>
+        <MNote title="Decade Sharpe">Sharpe ratio computed from monthly returns within each decade (1920s = 1920-01 to 1929-12, etc.):</MNote>
+        <MathBlock>{"$$\\text{Sharpe}_{\\text{decade}} = \\frac{\\bar{r}_{\\text{decade}}}{\\sigma_{\\text{decade}}} \\times \\sqrt{12}$$"}</MathBlock>
+        <MNote title="Partial Decades">The first and last decades may have fewer than 120 months if the factor's sample does not span the full decade. Sharpe is still annualized by {"$\\sqrt{12}$"} regardless of the number of months.</MNote>
+        <MNote title="Data">Monthly long-short returns. Factors with fewer than 12 months in a decade are excluded from that decade's computation. The 2020s decade is necessarily partial (data through 2024).</MNote>
+      </Methodology>
     </div>
   );
 }

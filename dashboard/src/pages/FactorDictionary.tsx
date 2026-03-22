@@ -5,6 +5,7 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import { SignalTypeBadge } from "../components/FactorInfoModal";
 import type { SignalDoc } from "../types";
+import Methodology, { MNote } from "../components/Methodology";
 
 export default function FactorDictionary() {
   const { data: signalDoc, loading: l1 } = useData(useCallback(() => loadSignalDoc(), []));
@@ -152,6 +153,11 @@ export default function FactorDictionary() {
           />
         ))}
       </div>
+      <Methodology>
+        <MNote title="Signal Documentation">All metadata comes from the Chen & Zimmermann (2022) signal documentation file. Fields include: original authors, publication year, journal, signal definition, economic category, signal type (Predictor, Placebo, etc.), and replication quality rating.</MNote>
+        <MNote title="Signal Types">Predictor = standard return predictor. Placebo = variable not expected to predict returns (used as a false positive check). Clear Predictor = passes additional robustness checks.</MNote>
+        <MNote title="Quality Ratings">Replication quality reflects how closely the OpenAP standardized replication matches the original paper's methodology and results.</MNote>
+      </Methodology>
     </div>
   );
 }

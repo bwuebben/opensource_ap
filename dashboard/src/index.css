@@ -30,3 +30,15 @@ body {
 .js-plotly-plot .plotly .modebar-btn path {
   fill: #94a3b8 !important;
 }
+
+/* MathJax dark theme */
+.methodology-content .MathJax {
+  color: #e2e8f0 !important;
+}
+.methodology-content code {
+  background: #1e293b;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #e2e8f0;
+  font-size: 11px;
+}

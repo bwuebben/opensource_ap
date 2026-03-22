@@ -4,6 +4,7 @@ import { useData } from "../hooks";
 import { loadMonthlyReturns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MNote } from "../components/Methodology";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -147,6 +148,12 @@ export default function MonthlyHeatmap() {
           style={{ width: "100%" }}
         />
       </div>
+
+      <Methodology>
+        <MNote title="Heatmap">Each cell shows the raw monthly long-short return (in %) for the selected factor. Color scale maps linearly from the minimum (red) through zero (neutral) to the maximum (green) observed return for that factor.</MNote>
+        <MNote title="Seasonality Bar">Average return by calendar month across the full sample: {"$\\bar{r}_m = \\frac{1}{N_m} \\sum_{y} r_{y,m}$"} where $m$ is the calendar month and $N_m$ is the number of years with data for that month.</MNote>
+        <MNote title="Data">Monthly returns displayed as percentages (multiplied by 100). Missing months appear as empty cells. No interpolation or forward-filling is applied.</MNote>
+      </Methodology>
     </div>
   );
 }

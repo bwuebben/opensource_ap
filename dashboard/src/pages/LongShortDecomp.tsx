@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface DecompData {
   factors: Record<string, {
@@ -164,6 +165,13 @@ export default function LongShortDecomp() {
           </tbody>
         </table>
       </div>
+      <Methodology>
+        <MNote title="Decomposition">The long-short return is decomposed into its long leg (top decile, D10) and short leg (bottom decile, D1):</MNote>
+        <MathBlock>{"$$r_{\\text{L/S},t} = r_{\\text{D10},t} - r_{\\text{D1},t}$$"}</MathBlock>
+        <MNote title="Decile Returns">Equal-weighted returns within each decile portfolio. D10 is the decile that the factor's signal predicts will have the highest returns; D1 is the lowest.</MNote>
+        <MNote title="Interpretation">If the long-short return is driven primarily by D1 (the short leg), the factor may be difficult to capture for long-only investors or in markets with short-sale constraints. Factors driven by the long leg (D10) are more implementable.</MNote>
+        <MNote title="Data">Decile returns from OpenAP equal-weighted decile portfolios. Returns are monthly (decimal). Factors without decile data are excluded.</MNote>
+      </Methodology>
     </div>
   );
 }

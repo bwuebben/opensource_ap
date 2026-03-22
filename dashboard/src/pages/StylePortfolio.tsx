@@ -9,6 +9,7 @@ import {
 } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import type { TimeSeries } from "../types";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 const STYLE_COLORS: Record<string, string> = {
   Value: "#3b82f6",
@@ -527,6 +528,14 @@ export default function StylePortfolio() {
           </table>
         </div>
       </div>
+
+      <Methodology>
+        <MNote title="Portfolio Construction">The composite portfolio equal-weights the selected style returns each month:</MNote>
+        <MathBlock>{"$$r_{\\text{portfolio},t} = \\frac{1}{K} \\sum_{k=1}^{K} r_{\\text{style}_k,t}$$"}</MathBlock>
+        <MNote title="Rebalancing">where $K$ is the number of selected styles. Portfolio is rebalanced to equal weight monthly. No transaction costs, leverage constraints, or capacity adjustments.</MNote>
+        <MNote title="Statistics">All displayed statistics (Sharpe, return, vol, drawdown) are computed from the resulting portfolio return series using the same formulas as individual factor statistics.</MNote>
+        <MNote title="Data">Style returns are pre-computed equal-weighted averages of constituent factor returns. The portfolio series starts from the first month where all selected styles have data.</MNote>
+      </Methodology>
     </div>
   );
 }

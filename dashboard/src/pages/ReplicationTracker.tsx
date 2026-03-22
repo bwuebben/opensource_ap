@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MNote } from "../components/Methodology";
 
 interface RepData {
   factors: {
@@ -172,6 +173,12 @@ export default function ReplicationTracker() {
           </tbody>
         </table>
       </div>
+      <Methodology>
+        <MNote title="Replication">Compares the original paper's reported t-statistic with the t-statistic from the OpenAP replication using standardized methodology (Chen & Zimmermann 2022).</MNote>
+        <MNote title="Replication Criterion">A factor is considered "replicated" if the OpenAP t-statistic has the same sign as the original and is statistically significant ({"$|t| \\geq 1.96$"}).</MNote>
+        <MNote title="Differences">Discrepancies can arise from: different sample periods, different portfolio construction (decile vs quintile, value-weighted vs equal-weighted), updated data vintages, or methodological standardization.</MNote>
+        <MNote title="Data">Original t-statistics from the signal documentation. Replicated t-statistics computed from the full available sample of OpenAP long-short returns.</MNote>
+      </Methodology>
     </div>
   );
 }

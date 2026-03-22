@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface CrisisData {
   crises: { name: string; start: string; end: string }[];
@@ -127,6 +128,14 @@ export default function RegimesCrises() {
           );
         })()}
       </div>
+
+      <Methodology>
+        <MNote title="Crisis Windows">9 predefined crisis periods (e.g., Great Depression 1929-08 to 1933-03, GFC 2007-12 to 2009-06, COVID 2020-02 to 2020-04). Windows are defined by start and end months.</MNote>
+        <MNote title="Crisis Return">Cumulative return during the crisis window:</MNote>
+        <MathBlock>{"$$r_{\\text{crisis}} = \\prod_{t \\in \\text{window}} (1 + r_t) - 1$$"}</MathBlock>
+        <MNote title="Ranking">Factors are ranked by their crisis return. Top performers (most positive) are crisis hedges; bottom performers (most negative) are crisis-vulnerable.</MNote>
+        <MNote title="Data">Monthly long-short returns. Factors missing data during a crisis window are excluded from that crisis's ranking. No adjustment for factor exposure or beta.</MNote>
+      </Methodology>
     </div>
   );
 }

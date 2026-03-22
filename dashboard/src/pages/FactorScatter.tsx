@@ -4,6 +4,7 @@ import { useData } from "../hooks";
 import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MNote } from "../components/Methodology";
 import type { FactorStats, SignalDoc } from "../types";
 
 const METRICS: { key: string; label: string; fmt: (s: FactorStats) => number | null }[] = [
@@ -121,6 +122,12 @@ export default function FactorScatter() {
           style={{ width: "100%" }}
         />
       </div>
+
+      <Methodology>
+        <MNote title="Scatter Plot">Each point represents one factor. Axes can be set to any computed statistic (Sharpe ratio, t-stat, annualized return, volatility, max drawdown, skewness, kurtosis, etc.). All statistics are full-sample estimates computed from monthly long-short returns.</MNote>
+        <MNote title="Color Coding">Points are colored by economic category following the Chen & Zimmermann taxonomy (Value, Momentum, Quality, etc.).</MNote>
+        <MNote title="Data">Statistics are pre-computed in the pipeline. Each factor uses its full available sample period, which varies across factors. No adjustments for multiple testing.</MNote>
+      </Methodology>
     </div>
   );
 }

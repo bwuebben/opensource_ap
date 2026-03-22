@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface CrowdingData {
   dates: string[];
@@ -78,6 +79,14 @@ export default function Crowding() {
         <h3 className="text-sm font-semibold text-[#f1f5f9] mb-2">Factors Used</h3>
         <p className="text-xs text-[#94a3b8]">{data.top_factors.join(", ")}</p>
       </div>
+
+      <Methodology>
+        <MNote title="Factor Selection">Top 30 factors by full-sample absolute Sharpe ratio.</MNote>
+        <MNote title="Rolling Correlation">At each month $t$, compute the average pairwise Pearson correlation among the 30 factors over the trailing 36-month window:</MNote>
+        <MathBlock>{"$$\\bar{\\rho}_t = \\frac{2}{K(K-1)} \\sum_{i<j} \\rho_{ij,[t-35,t]}$$"}</MathBlock>
+        <MNote title="Interpretation">Rising {"$\\bar{\\rho}$"} signals crowding: factors are becoming more correlated, reducing portfolio diversification. Spikes often coincide with deleveraging events (e.g., August 2007 quant crisis) where many factor strategies unwind simultaneously.</MNote>
+        <MNote title="Data">Monthly long-short returns. Window requires at least 24 of 36 months of pairwise data to compute a correlation. Missing months are excluded pairwise.</MNote>
+      </Methodology>
     </div>
   );
 }

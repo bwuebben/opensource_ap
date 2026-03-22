@@ -3,6 +3,7 @@ import { useData } from "../hooks";
 import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MNote } from "../components/Methodology";
 import type { FactorStats, SortDirection } from "../types";
 
 type SortKey = keyof FactorStats;
@@ -227,6 +228,15 @@ export default function FactorBrowser() {
           </tbody>
         </table>
       </div>
+
+      <Methodology>
+        <MNote title="Statistics Displayed">All statistics are computed from the full available sample of monthly long-short returns for each factor. Sample periods vary by factor.</MNote>
+        <MNote title="Annualized Return">{"$r_{ann} = \\bar{r}_{monthly} \\times 12$"}</MNote>
+        <MNote title="Annualized Volatility">{"$\\sigma_{ann} = \\sigma_{monthly} \\times \\sqrt{12}$"}</MNote>
+        <MNote title="Sharpe Ratio">{"$\\text{Sharpe} = r_{ann} / \\sigma_{ann}$"}</MNote>
+        <MNote title="Max Drawdown">Maximum peak-to-trough decline in the cumulative return series: {"$\\text{MDD} = \\min_t \\left( \\frac{V_t - \\max_{s \\leq t} V_s}{\\max_{s \\leq t} V_s} \\right)$"}</MNote>
+        <MNote title="Data">Returns are not adjusted for transaction costs or shorting fees. Missing months are excluded (not zero-filled). Inline charts show growth of $1 (cumulative product of 1 + monthly return).</MNote>
+      </Methodology>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import type { FactorStats } from "../types";
 
 export default function Overview() {
@@ -53,6 +54,15 @@ export default function Overview() {
         <TStatDistribution factors={factors} />
         {Object.keys(categories).length > 0 && <CategoryPie categories={categories} />}
       </div>
+
+      <Methodology>
+        <MNote title="Sharpe Ratio">Annualized Sharpe ratio for each factor:</MNote>
+        <MathBlock>{"$$\\text{Sharpe} = \\frac{\\bar{r}}{\\sigma_r} \\times \\sqrt{12}$$"}</MathBlock>
+        <MNote title="t-Statistic">Tests whether mean monthly return differs from zero:</MNote>
+        <MathBlock>{"$$t = \\frac{\\bar{r}}{\\sigma_r / \\sqrt{N}}$$"}</MathBlock>
+        <MNote title="Returns">All returns are monthly long-short portfolio returns from openassetpricing.com (Chen & Zimmermann 2022). Raw data is in percentage form (e.g., 1.68 = 1.68%); the pipeline divides by 100 to convert to decimals. Top-20 chart ranks factors by annualized Sharpe ratio.</MNote>
+        <MNote title="Data">212 factors, sample periods vary by factor (earliest: 1926-07, latest end: 2024-11). No forward-filling of missing data. Category assignments follow the Chen & Zimmermann taxonomy.</MNote>
+      </Methodology>
     </div>
   );
 }

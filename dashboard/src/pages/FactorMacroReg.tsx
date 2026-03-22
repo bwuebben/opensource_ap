@@ -4,6 +4,7 @@ import { useData } from "../hooks";
 import { loadMonthlyReturns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface MacroSeries {
   dates: string[];
@@ -244,6 +245,15 @@ export default function FactorMacroReg() {
           </div>
         </div>
       </div>
+      <Methodology>
+        <MNote title="Regression Model">Ordinary Least Squares (OLS) regression of monthly factor returns on a macro variable:</MNote>
+        <MathBlock>{"$$r_{\\text{factor},t} = \\alpha + \\beta \\cdot x_{\\text{macro},t} + \\varepsilon_t$$"}</MathBlock>
+        <MNote title="Beta">{"$\\hat{\\beta} = \\frac{\\sum(x_t - \\bar{x})(r_t - \\bar{r})}{\\sum(x_t - \\bar{x})^2}$"} — measures the sensitivity of the factor to the macro variable. Units: percentage points of factor return per unit change in the macro variable.</MNote>
+        <MNote title="t-Statistic">{"$t = \\hat{\\beta} / \\text{SE}(\\hat{\\beta})$"} where {"$\\text{SE} = \\sqrt{\\text{SSE}/(N-2) \\cdot 1/\\sum(x_t - \\bar{x})^2}$"}. Values {"$|t| > 1.96$"} indicate significance at 5%.</MNote>
+        <MNote title="Scale">Factor returns are in percentage (×100). Macro variables are McCracken-Ng transformed (e.g., S&P 500 is log first-differenced ≈ monthly returns in decimal ~0.006 mean). A beta of -20 on S&P 500 means: when the S&P rises 1% (0.01), the factor return falls 0.20 percentage points.</MNote>
+        <MNote title="Date Alignment">Factor returns use end-of-month dates, macro data uses first-of-month. Alignment is on YYYY-MM (year-month). Months where either series has missing data are excluded.</MNote>
+        <MNote title="Sensitivity Ranking">Runs the same OLS regression for all factors (and styles) against the selected macro variable. Minimum 60 observations required. Ranked by beta coefficient.</MNote>
+      </Methodology>
     </div>
   );
 }

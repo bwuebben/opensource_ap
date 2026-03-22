@@ -5,6 +5,7 @@ import { loadCumulativeReturns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorSearch from "../components/FactorSearch";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
 const DEFAULT_FACTORS = ["Mom12m", "BM", "Size", "GP", "AssetGrowth"];
@@ -140,6 +141,13 @@ export default function CumulativeReturns() {
           </table>
         </div>
       )}
+
+      <Methodology>
+        <MNote title="Cumulative Return">Growth of $1 invested at inception:</MNote>
+        <MathBlock>{"$$V_t = \\prod_{i=1}^{t} (1 + r_i)$$"}</MathBlock>
+        <MNote title="Log Scale">When enabled, the y-axis displays {"$\\log_{10}(V_t)$"}, making constant growth rates appear as straight lines and allowing comparison of factors with vastly different magnitudes.</MNote>
+        <MNote title="Data">Monthly long-short returns (decimal). Each factor's series starts at its first available month — no backfilling. Factors with shorter histories simply start later on the chart. Range slider filters the visible x-axis without recomputing cumulative returns from the filtered start date (the full cumulative path is always shown).</MNote>
+      </Methodology>
     </div>
   );
 }

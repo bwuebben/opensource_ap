@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface RecentData {
   as_of: string;
@@ -132,6 +133,12 @@ export default function RecentPerformance() {
           </tbody>
         </table>
       </div>
+      <Methodology>
+        <MNote title="Trailing Returns">Cumulative return over the trailing 1, 3, 6, and 12 months ending at the most recent data date:</MNote>
+        <MathBlock>{"$$r_{\\text{trailing}} = \\prod_{t=T-k+1}^{T} (1 + r_t) - 1$$"}</MathBlock>
+        <MNote title="Ranking">Factors are ranked by trailing return within each window. The leaderboard shows top and bottom performers.</MNote>
+        <MNote title="Data">Uses the most recent available monthly returns. Factors missing any month within the trailing window are excluded from that window's ranking. Returns are not annualized.</MNote>
+      </Methodology>
     </div>
   );
 }

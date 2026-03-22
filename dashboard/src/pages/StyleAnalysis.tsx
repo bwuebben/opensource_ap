@@ -12,6 +12,7 @@ import {
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import { getColor } from "../chartColors";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 const STYLE_COLORS: Record<string, string> = {
   Value: "#3b82f6",
@@ -341,6 +342,15 @@ export default function StyleAnalysis() {
 
       {/* Diversification insight */}
       <DiversificationInsight stats={stats} corr={corr} />
+
+      <Methodology>
+        <MNote title="Style Construction">Each style group is an equal-weighted average of all factor returns in that category each month:</MNote>
+        <MathBlock>{"$$r_{\\text{style},t} = \\frac{1}{N_t} \\sum_{i=1}^{N_t} r_{i,t}$$"}</MathBlock>
+        <MNote title="Rebalancing">{"$N_t$"} can vary over time as factors enter or leave the sample. The portfolio is implicitly rebalanced to equal weight each month. No transaction costs are applied.</MNote>
+        <MNote title="Style Categories">14 groups following the Chen & Zimmermann economic taxonomy: Value, Momentum, Quality, Investment, Risk, Size, Accruals, Liquidity, Leverage & Financing, Analyst & Sentiment, Intangibles & Innovation, Payout & Ownership, Sales Growth, Other.</MNote>
+        <MNote title="Correlation Matrix">Style-level Pearson correlations computed from the equal-weighted style return series over all available months.</MNote>
+        <MNote title="Data">Input is monthly long-short factor returns (decimal). Style returns start from the earliest month where at least one factor in the group has data.</MNote>
+      </Methodology>
     </div>
   );
 }

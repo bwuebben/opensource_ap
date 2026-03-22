@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface TailData {
   factors: Record<string, {
@@ -164,6 +165,16 @@ export default function TailRisk() {
           </table>
         </div>
       )}
+
+      <Methodology>
+        <MNote title="Value at Risk (5%)">The 5th percentile of the empirical monthly return distribution:</MNote>
+        <MathBlock>{"$$\\text{VaR}_{5\\%} = \\text{Percentile}(r_1, \\ldots, r_N; \\, 5\\%)$$"}</MathBlock>
+        <MNote title="Conditional VaR (Expected Shortfall)">Mean return conditional on being below VaR — the average loss in the worst 5% of months:</MNote>
+        <MathBlock>{"$$\\text{CVaR}_{5\\%} = E[r \\,|\\, r \\leq \\text{VaR}_{5\\%}]$$"}</MathBlock>
+        <MNote title="Max Drawdown Duration">Number of months from peak to recovery (or end of sample if unrecovered). Measures how long an investor would have been underwater.</MNote>
+        <MNote title="Worst Episodes">The largest peak-to-trough drawdowns with their start and end dates.</MNote>
+        <MNote title="Data">All metrics computed from the full sample of monthly long-short returns (decimal). No parametric distribution is assumed — all quantiles are empirical.</MNote>
+      </Methodology>
     </div>
   );
 }

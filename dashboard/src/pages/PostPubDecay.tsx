@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface DecayData {
   factors: {
@@ -199,6 +200,14 @@ export default function PostPubDecay() {
           </tbody>
         </table>
       </div>
+
+      <Methodology>
+        <MNote title="Pre/Post Split">For each factor, the sample is split at the publication year of the original academic paper. Pre-publication: all months before January of the publication year. Post-publication: all months from January of the publication year onward.</MNote>
+        <MNote title="Decay Metric">Percentage change in Sharpe ratio from pre- to post-publication:</MNote>
+        <MathBlock>{"$$\\text{Decay}\\% = \\frac{\\text{Sharpe}_{\\text{post}} - \\text{Sharpe}_{\\text{pre}}}{|\\text{Sharpe}_{\\text{pre}}|} \\times 100$$"}</MathBlock>
+        <MNote title="Interpretation">Negative decay indicates the factor weakened after publication — possibly due to arbitrage (anomaly traded away), data-mining (never real), or structural market changes. Positive decay means the factor strengthened, which can happen if the publication period includes a favorable regime.</MNote>
+        <MNote title="Data">Publication years from the Chen & Zimmermann signal documentation. Factors without a clear publication year are excluded. Sharpe ratios use the same annualization formula as elsewhere.</MNote>
+      </Methodology>
     </div>
   );
 }

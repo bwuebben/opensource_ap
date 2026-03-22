@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface TimingData {
   macro_vars: string[];
@@ -131,6 +132,12 @@ export default function FactorTiming() {
           </tbody>
         </table>
       </div>
+      <Methodology>
+        <MNote title="Tercile Conditioning">For each macro variable, sort all months into low, middle, and high terciles based on the contemporaneous macro value. Compute the factor Sharpe ratio separately within each tercile:</MNote>
+        <MathBlock>{"$$\\text{Sharpe}_{\\text{low}} = \\frac{\\bar{r}_{t \\in Q_1}}{\\sigma_{r, t \\in Q_1}} \\times \\sqrt{12}$$"}</MathBlock>
+        <MNote title="Interpretation">Large variation in Sharpe across terciles suggests the factor is macro-dependent. If {"$\\text{Sharpe}_{\\text{high}} \\gg \\text{Sharpe}_{\\text{low}}$"}, the factor works best when the macro variable is elevated. This is contemporaneous conditioning (not predictive) — it shows association, not causation.</MNote>
+        <MNote title="Data">Macro variables are McCracken-Ng transformed. Tercile breakpoints are computed over the full sample. Factor returns are monthly long-short (decimal). Only months with both factor and macro data are used.</MNote>
+      </Methodology>
     </div>
   );
 }

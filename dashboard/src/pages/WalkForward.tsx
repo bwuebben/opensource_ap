@@ -4,6 +4,7 @@ import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import type { TimeSeries } from "../types";
+import Methodology, { MNote } from "../components/Methodology";
 
 interface WalkForwardData {
   objective: string;
@@ -409,6 +410,15 @@ export default function WalkForward() {
           style={{ width: "100%" }}
         />
       </div>
+
+      <Methodology>
+        <MNote title="Walk-Forward Optimization">At each year-end $T$, the optimizer uses all available monthly returns from inception through $T$ (expanding window, minimum 5 years per factor) to solve for optimal weights, which are then applied out-of-sample for the 12 months of year $T+1$.</MNote>
+        <MNote title="Max Sharpe Objective">{"Maximize $w^\\top \\mu / \\sqrt{w^\\top \\Sigma w}$ subject to $w_i \\geq 0$, $\\sum w_i = 1$, $w_i \\leq 0.1$."}</MNote>
+        <MNote title="Max Return Objective">{"Maximize $w^\\top \\mu$ subject to $w_i \\geq 0$, $\\sum w_i = 1$, $w_i \\leq 0.1$."}</MNote>
+        <MNote title="Constraints">Weights are long-only, sum to 1, and capped at ~10% per factor. Only factors with at least 60 months of history at the optimization date are eligible. Covariance matrix {"$\\Sigma$"} uses the sample covariance of monthly returns.</MNote>
+        <MNote title="Equal-Weight Benchmark">Equal-weights all eligible factors each year. Serves as a naive diversification benchmark with no optimization.</MNote>
+        <MNote title="Data">Monthly long-short returns. Annual rebalance at each December. First optimized portfolio starts when sufficient history is available (~1940). No transaction costs or turnover constraints.</MNote>
+      </Methodology>
     </div>
   );
 }

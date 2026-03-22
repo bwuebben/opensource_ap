@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadCorrelation } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 export default function Correlation() {
   const { data: corr, loading } = useData(
@@ -55,6 +56,13 @@ export default function Correlation() {
           style={{ width: "100%" }}
         />
       </div>
+
+      <Methodology>
+        <MNote title="Correlation Matrix">Pearson pairwise correlation of monthly returns:</MNote>
+        <MathBlock>{"$$\\rho_{ij} = \\frac{\\sum_t (r_{i,t} - \\bar{r}_i)(r_{j,t} - \\bar{r}_j)}{\\sqrt{\\sum_t (r_{i,t} - \\bar{r}_i)^2 \\sum_t (r_{j,t} - \\bar{r}_j)^2}}$$"}</MathBlock>
+        <MNote title="Factor Selection">Top 50 factors by absolute Sharpe ratio are included. Correlation is computed over all months where both factors have data (pairwise complete observations).</MNote>
+        <MNote title="Interpretation">Values near +1 indicate factors that move together (potential redundancy). Values near -1 indicate natural hedges. Near-zero means the factors are roughly independent. For portfolio construction, combining low-correlation factors maximizes diversification benefit.</MNote>
+      </Methodology>
     </div>
   );
 }

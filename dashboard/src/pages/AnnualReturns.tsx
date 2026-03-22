@@ -3,6 +3,7 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadAnnualReturns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
 export default function AnnualReturns() {
@@ -159,6 +160,13 @@ export default function AnnualReturns() {
           </tbody>
         </table>
       </div>
+
+      <Methodology>
+        <MNote title="Annual Returns">Calendar-year return computed by compounding monthly returns within each year:</MNote>
+        <MathBlock>{"$$r_{year} = \\prod_{m \\in \\text{year}} (1 + r_m) - 1$$"}</MathBlock>
+        <MNote title="Partial Years">The first and last calendar years may be partial (not all 12 months available). These are still compounded over the available months, so they are not directly comparable to full-year returns. Partial years are included to show the complete history.</MNote>
+        <MNote title="Data">Monthly long-short returns in decimal form. Years with no available monthly data are omitted entirely.</MNote>
+      </Methodology>
     </div>
   );
 }

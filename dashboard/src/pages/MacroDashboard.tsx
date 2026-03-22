@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Methodology, { MNote } from "../components/Methodology";
 
 interface MacroSeries {
   dates: string[];
@@ -136,6 +137,12 @@ export default function MacroDashboard() {
           </div>
         );
       })}
+      <Methodology>
+        <MNote title="Data Source">FRED-MD dataset (McCracken & Ng 2016) plus supplemental FRED API series. All FRED-MD series have McCracken-Ng stationarity transformations applied (log-diff, second-diff, etc.) before display.</MNote>
+        <MNote title="Transformations">Transform code 1 = levels, 2 = first difference, 4 = log, 5 = log first difference (≈ growth rate), 6 = log second difference (≈ acceleration). See the Macro Dictionary page for each series' transform code.</MNote>
+        <MNote title="Recession Shading">NBER recession periods derived from the USREC indicator (0/1 monthly series from FRED). Shaded regions span from the recession start month to the end month.</MNote>
+        <MNote title="Data">Monthly frequency. Date convention is first-of-month (e.g., 2020-01-01 = January 2020). Missing values displayed as gaps in the line chart. No interpolation or forward-filling.</MNote>
+      </Methodology>
     </div>
   );
 }

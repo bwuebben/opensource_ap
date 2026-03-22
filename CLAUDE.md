@@ -76,6 +76,17 @@ FRED_API_KEY=<key> python3 data_pipeline/download_macro.py  # macro data
 - **Enrichment**: Series descriptions cached in `data_pipeline/cache/fred_md_enriched_meta.json`
 - **Total**: 132 macro series in output
 
+## Deployment
+
+- **Live site**: https://bwuebben.github.io/opensource_ap/
+- **Hosting**: GitHub Pages, auto-deploys via GitHub Actions on push to `main`
+- **Workflow**: `.github/workflows/deploy.yml` — builds with `npm run build` in `dashboard/`, uploads `dist/` to Pages
+- **Base path**: Vite `base: '/opensource_ap/'` — all asset and data URLs use `import.meta.env.BASE_URL`
+- **Data fetch paths**: All `fetch()` calls use `dataUrl()` helper from `dataLoader.ts` which prepends the base path. Never hardcode `/data/...` paths.
+- **SPA routing**: `BrowserRouter` with `basename={import.meta.env.BASE_URL}`. `public/404.html` handles GitHub Pages deep-link redirects via sessionStorage.
+- **Lazy loading**: 26 pages use `React.lazy()` for code splitting. Vite generates separate JS chunks per page.
+- **FRED API proxy**: Only works in dev mode (`npm run dev`). The Macro Dictionary custom ticker fetcher won't work on the deployed site due to CORS.
+
 ## Key Technical Decisions
 
 - **Returns are in percentage form** from the source (e.g., 1.68 = 1.68%). Pipeline divides by 100 to get decimals before computing stats. This caused early bugs with cumulative returns overflowing to infinity.

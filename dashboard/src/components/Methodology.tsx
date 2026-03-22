@@ -15,7 +15,7 @@ interface MethodologyProps {
 
 export default function Methodology({ children }: MethodologyProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   useEffect(() => {
     if (open && ref.current && window.MathJax?.typesetPromise) {

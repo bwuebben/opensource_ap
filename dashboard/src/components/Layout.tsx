@@ -64,6 +64,12 @@ const NAV_SECTIONS: NavSection[] = [
       { to: "/factor-macro", label: "Factor-Macro Regressions" },
     ],
   },
+  {
+    label: "Reference",
+    items: [
+      { to: "/data", label: "Data Sources" },
+    ],
+  },
 ];
 
 export default function Layout() {

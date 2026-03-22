@@ -33,6 +33,7 @@ const Seasonality = lazy(() => import("./pages/Seasonality"));
 const RecentPerformance = lazy(() => import("./pages/RecentPerformance"));
 const FactorTiming = lazy(() => import("./pages/FactorTiming"));
 const ReplicationTracker = lazy(() => import("./pages/ReplicationTracker"));
+const DataSources = lazy(() => import("./pages/DataSources"));
 
 function S({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>;
@@ -72,6 +73,7 @@ export default function App() {
             <Route path="recent" element={<S><RecentPerformance /></S>} />
             <Route path="timing" element={<S><FactorTiming /></S>} />
             <Route path="replication" element={<S><ReplicationTracker /></S>} />
+            <Route path="data" element={<S><DataSources /></S>} />
           </Route>
         </Routes>
       </FactorProvider>

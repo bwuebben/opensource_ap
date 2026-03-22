@@ -215,7 +215,7 @@ export default function FactorMomentum() {
       <Methodology>
         <MNote title="Trailing Signal">Each month, compute the trailing 12-month cumulative return for each factor:</MNote>
         <MathBlock>{"$$S_{i,t} = \\prod_{k=1}^{12} (1 + r_{i,t-k}) - 1$$"}</MathBlock>
-        <MNote title="L/S Quintile">Rank factors by $S_{i,t}$. Go long the top 20% and short the bottom 20%, equal-weighted. Portfolio return: {"$r_t^{LS} = \\bar{r}_t^{\\text{top}} - \\bar{r}_t^{\\text{bottom}}$"}.</MNote>
+        <MNote title="L/S Quintile">{"Rank factors by $S_{i,t}$. Go long the top 20% and short the bottom 20%, equal-weighted. Portfolio return: $r_t^{LS} = \\bar{r}_t^{\\text{top}} - \\bar{r}_t^{\\text{bottom}}$."}</MNote>
         <MNote title="Long-Only Quintile">Top quintile only: {"$r_t^{LO} = \\bar{r}_t^{\\text{top}}$"}.</MNote>
         <MNote title="Z-Score Weighted L/S">Compute cross-sectional z-scores of trailing returns: {"$z_{i,t} = (S_{i,t} - \\bar{S}_t) / \\sigma_{S,t}$"}. Weights are proportional to z-scores, normalized so {"$\\sum_i |w_i| = 1$"} (leverage 1). Portfolio return: {"$r_t^{ZW} = \\sum_i w_{i,t} \\cdot r_{i,t+1}$"}.</MNote>
         <MNote title="Z-Score Long-Only">Uses only factors with positive z-scores, with weights proportional to their z-scores normalized to sum to 1.</MNote>

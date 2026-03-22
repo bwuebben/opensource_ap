@@ -174,9 +174,9 @@ export default function RollingStats() {
 
       <Methodology>
         <MNote title="Rolling Window">All statistics are computed over a trailing window of the user-selected length (default 36 months). The window slides one month at a time. A minimum of 12 months of data within the window is required to compute a statistic.</MNote>
-        <MNote title="Rolling Sharpe">{"$\\text{Sharpe}_t = \\frac{\\bar{r}_{[t-w,t]}}{\\sigma_{[t-w,t]}} \\times \\sqrt{12}$"} where $w$ is the window length in months.</MNote>
+        <MNote title="Rolling Sharpe">{"$\\text{Sharpe}_t = \\frac{\\bar{r}_{[t-w,t]}}{\\sigma_{[t-w,t]}} \\times \\sqrt{12}$ where $w$ is the window length in months."}</MNote>
         <MNote title="Rolling Correlation">Pairwise Pearson correlation computed over the trailing window between two selected factors. Uses only months where both factors have data.</MNote>
-        <MNote title="Data">Monthly long-short returns. The first $w-1$ months of each series produce no output (insufficient window). Missing months within the window reduce the effective sample size but do not halt computation.</MNote>
+        <MNote title="Data">{"Monthly long-short returns. The first $w-1$ months of each series produce no output (insufficient window). Missing months within the window reduce the effective sample size but do not halt computation."}</MNote>
       </Methodology>
     </div>
   );

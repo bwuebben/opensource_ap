@@ -82,7 +82,7 @@ export default function Crowding() {
 
       <Methodology>
         <MNote title="Factor Selection">Top 30 factors by full-sample absolute Sharpe ratio.</MNote>
-        <MNote title="Rolling Correlation">At each month $t$, compute the average pairwise Pearson correlation among the 30 factors over the trailing 36-month window:</MNote>
+        <MNote title="Rolling Correlation">{"At each month $t$, compute the average pairwise Pearson correlation among the 30 factors over the trailing 36-month window:"}</MNote>
         <MathBlock>{"$$\\bar{\\rho}_t = \\frac{2}{K(K-1)} \\sum_{i<j} \\rho_{ij,[t-35,t]}$$"}</MathBlock>
         <MNote title="Interpretation">Rising {"$\\bar{\\rho}$"} signals crowding: factors are becoming more correlated, reducing portfolio diversification. Spikes often coincide with deleveraging events (e.g., August 2007 quant crisis) where many factor strategies unwind simultaneously.</MNote>
         <MNote title="Data">Monthly long-short returns. Window requires at least 24 of 36 months of pairwise data to compute a correlation. Missing months are excluded pairwise.</MNote>

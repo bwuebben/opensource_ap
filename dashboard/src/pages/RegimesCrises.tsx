@@ -105,13 +105,17 @@ export default function RegimesCrises() {
             const v = data.factor_returns[c.name]?.[f]?.total_return;
             return v != null ? Math.round(v * 10000) / 100 : null;
           }));
+          const crisisVals = z.flat().filter((v): v is number => v != null).sort((a, b) => a - b);
+          const cp5 = crisisVals[Math.floor(crisisVals.length * 0.05)] ?? -20;
+          const cp95 = crisisVals[Math.floor(crisisVals.length * 0.95)] ?? 20;
+          const crisisBound = Math.max(Math.abs(cp5), Math.abs(cp95));
           return (
             <Plot
               data={[{
                 z, x: data.crises.map((c) => c.name), y: topFactors,
                 type: "heatmap",
-                colorscale: [[0, "#ef4444"], [0.5, "#1e293b"], [1, "#10b981"]],
-                zmid: 0,
+                colorscale: [[0, "#dc2626"], [0.25, "#f87171"], [0.5, "#1e293b"], [0.75, "#34d399"], [1, "#059669"]],
+                zmin: -crisisBound, zmax: crisisBound,
                 hovertemplate: "%{y} during %{x}: %{z:.1f}%<extra></extra>",
                 colorbar: { title: "Return (%)", titlefont: { color: "#94a3b8" }, tickfont: { color: "#94a3b8" } },
               }]}

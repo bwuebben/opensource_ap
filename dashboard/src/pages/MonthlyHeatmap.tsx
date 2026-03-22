@@ -6,6 +6,17 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MNote } from "../components/Methodology";
 
+interface ReturnSeries {
+  dates: string[];
+  values: number[];
+}
+
+async function loadStyleReturns(): Promise<Record<string, ReturnSeries>> {
+  const r = await fetch("/data/style_returns.json");
+  if (!r.ok) return {};
+  return r.json();
+}
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function MonthlyHeatmap() {
@@ -15,17 +26,33 @@ export default function MonthlyHeatmap() {
   const { data: stats, loading: l2 } = useData(
     useCallback(() => loadFactorStats(), [])
   );
+  const { data: styles, loading: l3 } = useData(
+    useCallback(() => loadStyleReturns(), [])
+  );
   const [factor, setFactor] = useState("Mom12m");
 
-  if (l1 || l2) return <LoadingSpinner />;
+  const allData = useMemo(() => {
+    const merged: Record<string, ReturnSeries> = {};
+    if (monthly) Object.assign(merged, monthly);
+    if (styles) {
+      for (const [name, data] of Object.entries(styles)) {
+        merged[`Style: ${name}`] = data;
+      }
+    }
+    return merged;
+  }, [monthly, styles]);
+
+  const styleNames = useMemo(() => styles ? Object.keys(styles).sort().map(s => `Style: ${s}`) : [], [styles]);
+  const individualFactors = useMemo(() => monthly ? Object.keys(monthly).sort() : [], [monthly]);
+
+  if (l1 || l2 || l3) return <LoadingSpinner />;
   if (!monthly || !stats) return <div className="text-red-400">No data</div>;
 
-  const allFactors = Object.keys(monthly).sort();
   // Default to first available if selected doesn't exist
-  const activeFactor = monthly[factor] ? factor : allFactors[0];
+  const activeFactor = allData[factor] ? factor : individualFactors[0];
 
   // Build year x month matrix
-  const series = monthly[activeFactor];
+  const series = allData[activeFactor];
   const yearMonth: Record<number, Record<number, number>> = {};
   for (let i = 0; i < series.dates.length; i++) {
     const d = new Date(series.dates[i]);
@@ -54,6 +81,12 @@ export default function MonthlyHeatmap() {
     return vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : 0;
   });
 
+  // Compute symmetric percentile bounds for color scale to prevent outlier washout
+  const allVals = z.flat().filter((v): v is number => v != null).map((v) => v * 100).sort((a, b) => a - b);
+  const p2 = allVals[Math.floor(allVals.length * 0.02)] ?? -5;
+  const p98 = allVals[Math.floor(allVals.length * 0.98)] ?? 5;
+  const zBound = Math.max(Math.abs(p2), Math.abs(p98));
+
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
@@ -66,11 +99,16 @@ export default function MonthlyHeatmap() {
           onChange={(e) => setFactor(e.target.value)}
           className="px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-md text-sm text-[#f1f5f9] focus:outline-none focus:border-[#3b82f6]"
         >
-          {allFactors.map((f) => (
-            <option key={f} value={f}>
-              {f}
-            </option>
-          ))}
+          <optgroup label="Style Factors">
+            {styleNames.map((f) => (
+              <option key={f} value={f}>{f}</option>
+            ))}
+          </optgroup>
+          <optgroup label="Individual Factors">
+            {individualFactors.map((f) => (
+              <option key={f} value={f}>{f}</option>
+            ))}
+          </optgroup>
         </select>
         <span className="text-xs text-[#64748b]">
           {stats[activeFactor]
@@ -92,11 +130,14 @@ export default function MonthlyHeatmap() {
               y: years.map(String),
               type: "heatmap",
               colorscale: [
-                [0, "#ef4444"],
+                [0, "#dc2626"],
+                [0.25, "#f87171"],
                 [0.5, "#1e293b"],
-                [1, "#10b981"],
+                [0.75, "#34d399"],
+                [1, "#059669"],
               ],
-              zmid: 0,
+              zmin: -zBound,
+              zmax: zBound,
               colorbar: {
                 title: "Return (%)",
                 titlefont: { color: "#94a3b8" },

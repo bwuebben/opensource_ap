@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadDrawdowns, loadFactorStats } from "../dataLoader";
@@ -7,6 +7,12 @@ import FactorSearch from "../components/FactorSearch";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
+
+async function loadStyleDrawdowns(): Promise<Record<string, { dates: string[]; values: number[] }>> {
+  const r = await fetch("/data/style_drawdowns.json");
+  if (!r.ok) return {};
+  return r.json();
+}
 
 const DEFAULT_FACTORS = ["Mom12m", "BM", "Size"];
 
@@ -17,13 +23,30 @@ export default function Drawdowns() {
   const { data: stats, loading: l2 } = useData(
     useCallback(() => loadFactorStats(), [])
   );
+  const { data: styles, loading: l3 } = useData(
+    useCallback(() => loadStyleDrawdowns(), [])
+  );
   const [selected, setSelected] = useState<string[]>(DEFAULT_FACTORS);
 
-  if (l1 || l2) return <LoadingSpinner />;
+  const allData = useMemo(() => {
+    const merged: Record<string, { dates: string[]; values: number[] }> = {};
+    if (drawdowns) Object.assign(merged, drawdowns);
+    if (styles) {
+      for (const [name, data] of Object.entries(styles)) {
+        merged[`Style: ${name}`] = data;
+      }
+    }
+    return merged;
+  }, [drawdowns, styles]);
+
+  const styleNames = useMemo(() => styles ? Object.keys(styles).sort().map(s => `Style: ${s}`) : [], [styles]);
+  const individualFactors = useMemo(() => drawdowns ? Object.keys(drawdowns).sort() : [], [drawdowns]);
+
+  if (l1 || l2 || l3) return <LoadingSpinner />;
   if (!drawdowns || !stats) return <div className="text-red-400">No data</div>;
 
-  const allFactors = Object.keys(drawdowns).sort();
-  const validSelected = selected.filter((f) => drawdowns[f]);
+  const allFactors = [...styleNames, ...individualFactors];
+  const validSelected = selected.filter((f) => allData[f]);
 
   function handleToggle(factor: string) {
     setSelected((prev) =>
@@ -32,8 +55,8 @@ export default function Drawdowns() {
   }
 
   const traces = validSelected.map((f, i) => ({
-    x: drawdowns[f].dates,
-    y: drawdowns[f].values.map((v) => v * 100),
+    x: allData[f].dates,
+    y: allData[f].values.map((v) => v * 100),
     type: "scatter" as const,
     mode: "lines" as const,
     name: f,

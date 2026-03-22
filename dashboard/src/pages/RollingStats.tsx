@@ -7,6 +7,17 @@ import FactorSearch from "../components/FactorSearch";
 import { getColor } from "../chartColors";
 import Methodology, { MNote } from "../components/Methodology";
 
+interface ReturnSeries {
+  dates: string[];
+  values: number[];
+}
+
+async function loadStyleReturns(): Promise<Record<string, ReturnSeries>> {
+  const r = await fetch("/data/style_returns.json");
+  if (!r.ok) return {};
+  return r.json();
+}
+
 const WINDOWS = [12, 24, 36, 60];
 
 function rollingMean(vals: number[], window: number): (number | null)[] {
@@ -63,15 +74,30 @@ function rollingCorr(a: number[], b: number[], window: number): (number | null)[
 export default function RollingStats() {
   const { data: monthly, loading: l1 } = useData(useCallback(() => loadMonthlyReturns(), []));
   const { data: stats, loading: l2 } = useData(useCallback(() => loadFactorStats(), []));
+  const { data: styles, loading: l3 } = useData(useCallback(() => loadStyleReturns(), []));
   const [selected, setSelected] = useState(["Mom12m", "BM"]);
   const [window, setWindow] = useState(36);
   const [metric, setMetric] = useState<"sharpe" | "vol" | "mean" | "corr">("sharpe");
 
-  if (l1 || l2) return <LoadingSpinner />;
+  const allData = useMemo(() => {
+    const merged: Record<string, ReturnSeries> = {};
+    if (monthly) Object.assign(merged, monthly);
+    if (styles) {
+      for (const [name, data] of Object.entries(styles)) {
+        merged[`Style: ${name}`] = data;
+      }
+    }
+    return merged;
+  }, [monthly, styles]);
+
+  const styleNames = useMemo(() => styles ? Object.keys(styles).sort().map(s => `Style: ${s}`) : [], [styles]);
+  const individualFactors = useMemo(() => monthly ? Object.keys(monthly).sort() : [], [monthly]);
+
+  if (l1 || l2 || l3) return <LoadingSpinner />;
   if (!monthly || !stats) return <div className="text-red-400">No data</div>;
 
-  const allFactors = Object.keys(monthly).sort();
-  const valid = selected.filter((f) => monthly[f]);
+  const allFactors = [...styleNames, ...individualFactors];
+  const valid = selected.filter((f) => allData[f]);
 
   function handleToggle(f: string) {
     setSelected((prev) => prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f]);
@@ -85,7 +111,7 @@ export default function RollingStats() {
     for (let i = 0; i < valid.length; i++) {
       for (let j = i + 1; j < valid.length; j++) {
         const fa = valid[i], fb = valid[j];
-        const tsA = monthly[fa], tsB = monthly[fb];
+        const tsA = allData[fa], tsB = allData[fb];
         // Align dates
         const dateSet = new Set(tsA.dates);
         const commonDates = tsB.dates.filter((d) => dateSet.has(d));
@@ -106,7 +132,7 @@ export default function RollingStats() {
     }
   } else {
     valid.forEach((f, i) => {
-      const ts = monthly[f];
+      const ts = allData[f];
       let vals: (number | null)[];
       if (metric === "sharpe") vals = rollingSharpe(ts.values, window);
       else if (metric === "vol") vals = rollingStd(ts.values, window).map((v) => v != null ? v * Math.sqrt(12) * 100 : null);

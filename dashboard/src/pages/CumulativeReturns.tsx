@@ -8,6 +8,12 @@ import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
+async function loadStyleCumulative(): Promise<Record<string, { dates: string[]; values: number[] }>> {
+  const r = await fetch("/data/style_cumulative.json");
+  if (!r.ok) return {};
+  return r.json();
+}
+
 const DEFAULT_FACTORS = ["Mom12m", "BM", "Size", "GP", "AssetGrowth"];
 
 export default function CumulativeReturns() {
@@ -17,16 +23,33 @@ export default function CumulativeReturns() {
   const { data: stats, loading: l2 } = useData(
     useCallback(() => loadFactorStats(), [])
   );
+  const { data: styles, loading: l3 } = useData(
+    useCallback(() => loadStyleCumulative(), [])
+  );
   const [selected, setSelected] = useState<string[]>(DEFAULT_FACTORS);
   const [logScale, setLogScale] = useState(false);
 
-  if (l1 || l2) return <LoadingSpinner />;
+  const allData = useMemo(() => {
+    const merged: Record<string, { dates: string[]; values: number[] }> = {};
+    if (cumReturns) Object.assign(merged, cumReturns);
+    if (styles) {
+      for (const [name, data] of Object.entries(styles)) {
+        merged[`Style: ${name}`] = data;
+      }
+    }
+    return merged;
+  }, [cumReturns, styles]);
+
+  const styleNames = useMemo(() => styles ? Object.keys(styles).sort().map(s => `Style: ${s}`) : [], [styles]);
+  const individualFactors = useMemo(() => cumReturns ? Object.keys(cumReturns).sort() : [], [cumReturns]);
+
+  if (l1 || l2 || l3) return <LoadingSpinner />;
   if (!cumReturns || !stats) return <div className="text-red-400">No data</div>;
 
-  const allFactors = Object.keys(cumReturns).sort();
+  const allFactors = [...styleNames, ...individualFactors];
 
   // Initialize with defaults that exist
-  const validSelected = selected.filter((f) => cumReturns[f]);
+  const validSelected = selected.filter((f) => allData[f]);
 
   function handleToggle(factor: string) {
     setSelected((prev) =>
@@ -35,8 +58,8 @@ export default function CumulativeReturns() {
   }
 
   const traces = validSelected.map((f, i) => ({
-    x: cumReturns[f].dates,
-    y: cumReturns[f].values,
+    x: allData[f].dates,
+    y: allData[f].values,
     type: "scatter" as const,
     mode: "lines" as const,
     name: f,

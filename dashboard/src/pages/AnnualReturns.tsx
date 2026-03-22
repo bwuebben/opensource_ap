@@ -1,10 +1,21 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadAnnualReturns, loadFactorStats } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
+
+interface AnnualSeries {
+  years: number[];
+  values: number[];
+}
+
+async function loadStyleAnnual(): Promise<Record<string, AnnualSeries>> {
+  const r = await fetch("/data/style_annual.json");
+  if (!r.ok) return {};
+  return r.json();
+}
 
 export default function AnnualReturns() {
   const { data: annual, loading: l1 } = useData(
@@ -13,18 +24,34 @@ export default function AnnualReturns() {
   const { data: stats, loading: l2 } = useData(
     useCallback(() => loadFactorStats(), [])
   );
+  const { data: styles, loading: l3 } = useData(
+    useCallback(() => loadStyleAnnual(), [])
+  );
   const [factor, setFactor] = useState("Mom12m");
   const [compareMode, setCompareMode] = useState(false);
   const [compareFactor, setCompareFactor] = useState("BM");
 
-  if (l1 || l2) return <LoadingSpinner />;
+  const allData = useMemo(() => {
+    const merged: Record<string, AnnualSeries> = {};
+    if (annual) Object.assign(merged, annual);
+    if (styles) {
+      for (const [name, data] of Object.entries(styles)) {
+        merged[`Style: ${name}`] = data;
+      }
+    }
+    return merged;
+  }, [annual, styles]);
+
+  const styleNames = useMemo(() => styles ? Object.keys(styles).sort().map(s => `Style: ${s}`) : [], [styles]);
+  const individualFactors = useMemo(() => annual ? Object.keys(annual).sort() : [], [annual]);
+
+  if (l1 || l2 || l3) return <LoadingSpinner />;
   if (!annual || !stats) return <div className="text-red-400">No data</div>;
 
-  const allFactors = Object.keys(annual).sort();
-  const activeFactor = annual[factor] ? factor : allFactors[0];
-  const activeCompare = annual[compareFactor] ? compareFactor : allFactors[1] || allFactors[0];
+  const activeFactor = allData[factor] ? factor : individualFactors[0];
+  const activeCompare = allData[compareFactor] ? compareFactor : individualFactors[1] || individualFactors[0];
 
-  const data1 = annual[activeFactor];
+  const data1 = allData[activeFactor];
 
   const traces: Plotly.Data[] = [
     {
@@ -39,8 +66,8 @@ export default function AnnualReturns() {
     },
   ];
 
-  if (compareMode && activeCompare !== activeFactor && annual[activeCompare]) {
-    const data2 = annual[activeCompare];
+  if (compareMode && activeCompare !== activeFactor && allData[activeCompare]) {
+    const data2 = allData[activeCompare];
     traces.push({
       x: data2.years.map(String),
       y: data2.values.map((v) => v * 100),
@@ -59,13 +86,13 @@ export default function AnnualReturns() {
     { label: "Sharpe", fmt: (s: typeof stats[string]) => s.sharpe_ratio.toFixed(3) },
     { label: "t-Stat", fmt: (s: typeof stats[string]) => s.t_stat.toFixed(2) },
     { label: "Best Year", fmt: (_s: typeof stats[string], f: string) => {
-      const a = annual[f];
+      const a = allData[f];
       if (!a) return "N/A";
       const maxIdx = a.values.indexOf(Math.max(...a.values));
       return `${(a.values[maxIdx] * 100).toFixed(1)}% (${a.years[maxIdx]})`;
     }},
     { label: "Worst Year", fmt: (_s: typeof stats[string], f: string) => {
-      const a = annual[f];
+      const a = allData[f];
       if (!a) return "N/A";
       const minIdx = a.values.indexOf(Math.min(...a.values));
       return `${(a.values[minIdx] * 100).toFixed(1)}% (${a.years[minIdx]})`;
@@ -84,9 +111,12 @@ export default function AnnualReturns() {
           onChange={(e) => setFactor(e.target.value)}
           className="px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-md text-sm text-[#f1f5f9] focus:outline-none focus:border-[#3b82f6]"
         >
-          {allFactors.map((f) => (
-            <option key={f} value={f}>{f}</option>
-          ))}
+          <optgroup label="Style Factors">
+            {styleNames.map((f) => <option key={f} value={f}>{f}</option>)}
+          </optgroup>
+          <optgroup label="Individual Factors">
+            {individualFactors.map((f) => <option key={f} value={f}>{f}</option>)}
+          </optgroup>
         </select>
 
         <label className="flex items-center gap-2 text-sm text-[#94a3b8]">
@@ -105,9 +135,12 @@ export default function AnnualReturns() {
             onChange={(e) => setCompareFactor(e.target.value)}
             className="px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-md text-sm text-[#f1f5f9] focus:outline-none focus:border-[#3b82f6]"
           >
-            {allFactors.filter((f) => f !== activeFactor).map((f) => (
-              <option key={f} value={f}>{f}</option>
-            ))}
+            <optgroup label="Style Factors">
+              {styleNames.filter((f) => f !== activeFactor).map((f) => <option key={f} value={f}>{f}</option>)}
+            </optgroup>
+            <optgroup label="Individual Factors">
+              {individualFactors.filter((f) => f !== activeFactor).map((f) => <option key={f} value={f}>{f}</option>)}
+            </optgroup>
           </select>
         )}
       </div>

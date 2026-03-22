@@ -120,7 +120,7 @@ export default function Seasonality() {
                 x: MONTH_LABELS,
                 y: top30.map((f) => f.name),
                 type: "heatmap",
-                colorscale: [[0, "#ef4444"], [0.5, "#1e293b"], [1, "#10b981"]],
+                colorscale: [[0, "#dc2626"], [0.25, "#f87171"], [0.5, "#1e293b"], [0.75, "#34d399"], [1, "#059669"]],
                 zmid: 0,
                 hovertemplate: "%{y} %{x}: %{z:.3f}%<extra></extra>",
                 colorbar: { title: "Ret (%)", titlefont: { color: "#94a3b8" }, tickfont: { color: "#94a3b8" } },

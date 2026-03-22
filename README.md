@@ -1,4 +1,4 @@
-# Factor Lab
+# Bernd's Equity Factor Lab
 
 **[Live Site](https://bwuebben.github.io/opensource_ap/)**
 

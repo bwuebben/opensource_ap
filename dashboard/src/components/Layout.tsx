@@ -86,7 +86,7 @@ export default function Layout() {
         {/* Logo */}
         <div className="px-4 py-4 border-b border-[#334155]">
           <h1 className="text-sm font-bold text-white tracking-tight leading-tight">
-            Factor Lab
+            Bernd's Equity Factor Lab
           </h1>
           <p className="text-[10px] text-[#64748b] mt-0.5">
             212 factors | Chen & Zimmermann

@@ -1,6 +1,6 @@
-# Factor Lab
+# Bernd's Equity Factor Lab
 
-Interactive research dashboard for exploring 212 equity factors from Chen & Zimmermann (2022), "Open Source Cross-Sectional Asset Pricing." Site name: **Factor Lab**. GitHub: `bwuebben/opensource_ap`.
+Interactive research dashboard for exploring 212 equity factors from Chen & Zimmermann (2022), "Open Source Cross-Sectional Asset Pricing." Site name: **Bernd's Equity Factor Lab**. GitHub: `bwuebben/opensource_ap`.
 
 ## Project Structure
 

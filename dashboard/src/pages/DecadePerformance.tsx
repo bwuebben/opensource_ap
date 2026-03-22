@@ -48,8 +48,7 @@ export default function DecadePerformance() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Sharpe ratio for each factor by decade. Shows which factors are persistent across eras
-        vs which had one great period.
+        Factor Sharpe ratios broken out by decade (1920s through 2020s). Reveals which factors are persistent across market eras and which had one exceptional period that dominates their full-sample statistics. A factor that only worked in the 1990s tells a very different story than one that has worked for 80 years.
       </p>
 
       <div className="flex gap-3 items-center">

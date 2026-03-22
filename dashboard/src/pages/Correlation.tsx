@@ -15,7 +15,7 @@ export default function Correlation() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        Pairwise correlation of monthly returns for the top 50 factors by absolute Sharpe ratio.
+        Pairwise correlation matrix of monthly returns for the top 50 factors by absolute Sharpe ratio. Red clusters indicate groups of factors that move together — useful for portfolio construction (you want low correlation between factors) and understanding which anomalies are truly distinct vs. variations of the same signal.
       </p>
 
       <div className="bg-[#1e293b] rounded-lg p-4 border border-[#334155]">

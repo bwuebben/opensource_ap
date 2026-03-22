@@ -101,6 +101,10 @@ export default function FactorBrowser() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-[#94a3b8]">
+        Sortable, filterable table of all 212 factors with key statistics. Click column headers to sort by Sharpe ratio, t-stat, volatility, or any other metric. Expand any row for a quick cumulative return chart. This is the fastest way to scan the full factor universe and find what you're looking for.
+      </p>
+
       <div className="flex flex-wrap gap-3 items-center">
         <input
           type="text"

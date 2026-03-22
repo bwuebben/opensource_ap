@@ -66,8 +66,7 @@ export default function FactorDictionary() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        Complete reference for all {signalDoc.length} signals from Chen &amp; Zimmermann (2022).
-        Click any factor name for the full info card.
+        Complete reference for all {signalDoc.length} signals from Chen &amp; Zimmermann (2022). Each entry shows the original authors, publication year, journal, signal definition, and data quality rating. Click any factor name for a detailed info card with links to the paper on Google Scholar and SSRN.
       </p>
 
       {/* Signal type legend */}

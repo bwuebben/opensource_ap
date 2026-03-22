@@ -81,7 +81,7 @@ export default function FactorScatter() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        Interactive scatter plot of factor statistics. Click any point to see factor details.
+        Plot any factor statistic against any other on a scatter chart, colored by economic category. For example, plot Sharpe ratio vs. volatility to find high-Sharpe low-vol factors, or t-stat vs. max drawdown to see the risk-return frontier. Click any point to view the factor's details.
       </p>
 
       <div className="flex flex-wrap gap-3 items-center">

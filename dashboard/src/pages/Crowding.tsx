@@ -31,8 +31,7 @@ export default function Crowding() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Average pairwise correlation among the top 30 factors (by Sharpe), computed on a rolling 36-month window.
-        Rising correlations suggest factor crowding — when many factors move together, diversification benefits shrink.
+        Tracks crowding risk among the most popular factors. Shows the rolling average pairwise correlation among the top 30 factors by Sharpe ratio. When correlations spike, many factors are moving together — diversification breaks down, and a common unwind can cause simultaneous losses across multiple strategies.
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

@@ -77,8 +77,7 @@ export default function MacroDashboard() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        FRED-MD macro database ({Object.keys(series).length} series) plus supplemental indicators.
-        Shaded areas indicate NBER recessions.
+        Time-series charts for {Object.keys(series).length} macroeconomic indicators from FRED-MD (McCracken &amp; Ng) plus supplemental FRED series. Select series from the checkbox grid below to display their charts. Shaded areas indicate NBER recession periods. Use the search box to find specific indicators by name or ticker.
       </p>
 
       <div className="flex flex-wrap gap-3 items-center">

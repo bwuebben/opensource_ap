@@ -44,6 +44,10 @@ export default function CumulativeReturns() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-[#94a3b8]">
+        Growth-of-$1 chart for one or more factors overlaid on the same axes. Use the range slider to zoom into specific periods. Toggle log scale to better compare factors with different magnitudes. Useful for visualizing long-run compounding and identifying regime changes.
+      </p>
+
       <div className="flex gap-4 items-start">
         <div className="flex-1">
           <FactorSearch

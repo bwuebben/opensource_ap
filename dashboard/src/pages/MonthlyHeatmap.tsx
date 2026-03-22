@@ -55,6 +55,10 @@ export default function MonthlyHeatmap() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-[#94a3b8]">
+        Year-by-month heatmap of factor returns. Each cell is one month colored by return magnitude. Quickly spot seasonal patterns (e.g., January effect), multi-year streaks, or crisis periods. The seasonality bar at the bottom shows average returns by calendar month.
+      </p>
+
       <div className="flex gap-3 items-center">
         <select
           value={activeFactor}

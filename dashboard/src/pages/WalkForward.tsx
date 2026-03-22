@@ -59,10 +59,7 @@ export default function WalkForward() {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-[#94a3b8]">
-          Walk-forward optimized multi-factor portfolio. At each year-end, uses all available
-          history (expanding window, min 5 years per factor) to find optimal factor weights,
-          then applies them out-of-sample for the next year.
-          Weights are long-only, capped at ~10% per factor to avoid concentration.
+          Walk-forward optimized multi-factor portfolio with no lookahead bias. At each year-end, uses all available history (expanding window, min 5 years per factor) to find optimal factor weights, then applies them out-of-sample for the next year. Compares max-Sharpe and max-return objectives against an equal-weight benchmark. Weight evolution shows how the optimizer's factor preferences shift over time.
         </p>
       </div>
 

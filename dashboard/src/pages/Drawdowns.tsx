@@ -53,6 +53,10 @@ export default function Drawdowns() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-[#94a3b8]">
+        Peak-to-trough drawdown chart for each factor — shows how far a factor fell from its high-water mark at every point in time. The table below ranks factors by return-to-drawdown ratio, helping identify which factors offer the best compensation for their worst losses.
+      </p>
+
       <FactorSearch
         factors={allFactors}
         selected={validSelected}

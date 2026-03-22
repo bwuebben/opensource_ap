@@ -130,7 +130,7 @@ export default function RollingStats() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        Rolling time-series statistics for selected factors.
+        Rolling window statistics (Sharpe ratio, volatility, mean return, or pairwise correlation) for selected factors. Reveals how stable a factor's characteristics are over time — a factor with a high full-sample Sharpe but wildly varying rolling Sharpe may be less reliable than one with steady performance.
       </p>
 
       <div className="flex flex-wrap gap-3 items-start">

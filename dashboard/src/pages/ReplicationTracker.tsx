@@ -43,8 +43,7 @@ export default function ReplicationTracker() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        How well do original paper results replicate? Compares reported t-statistics
-        and returns with the OpenAP replication.
+        How well do the original paper results hold up when replicated with standardized methodology? Compares reported t-statistics from the original publications with the OpenAP replication. An 80.5% replication rate means most anomalies are real, but ~20% do not reproduce — important for deciding which factors to trust for live trading.
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

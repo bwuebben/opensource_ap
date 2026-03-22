@@ -30,6 +30,11 @@ export default function Overview() {
 
   return (
     <div className="space-y-6">
+      <h2 className="text-lg font-semibold text-[#f1f5f9]">Dashboard Overview</h2>
+      <p className="text-sm text-[#94a3b8]">
+        At-a-glance summary of all 212 factors. Sharpe ratio and t-statistic distributions show the overall landscape of anomaly profitability. The top-20 chart highlights the strongest performers, and the category breakdown shows how factors cluster across economic themes.
+      </p>
+
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard label="Total Factors" value={factors.length.toString()} />

@@ -45,8 +45,7 @@ export default function PostPubDecay() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        How much do factor returns decay after the academic paper is published?
-        Compares pre-publication vs post-publication Sharpe ratios.
+        Do factor returns decay after academics publish the paper? Compares pre- vs post-publication Sharpe ratios for every factor. Decay can result from arbitrage (the anomaly gets traded away), data-mining (it was never real), or structural change. Breakdown by category and publication decade shows which types of factors are most resilient.
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

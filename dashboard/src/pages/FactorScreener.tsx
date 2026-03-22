@@ -116,7 +116,7 @@ export default function FactorScreener() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        Filter factors by multiple criteria. {filtered.length} of {Object.keys(stats).length} factors match.
+        Multi-criteria filter to narrow down the factor universe. Use presets like "Strong Predictors" or "High Sharpe Low Vol" for common screens, or set custom thresholds on Sharpe ratio, t-stat, volatility, and more. Results update live as you adjust the filters. <span className="text-[#f1f5f9]">{filtered.length} of {Object.keys(stats).length} factors match.</span>
       </p>
 
       {/* Preset screens */}

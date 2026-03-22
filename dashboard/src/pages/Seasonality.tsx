@@ -41,8 +41,7 @@ export default function Seasonality() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Average monthly return by calendar month. Reveals seasonal patterns like
-        the January effect, tax-loss selling, or window dressing.
+        Average factor return by calendar month, revealing seasonal patterns like the January effect, tax-loss selling in December, or window dressing at quarter-ends. The cross-factor heatmap shows which months are systematically strong or weak across many factors, and the "most seasonal" ranking identifies factors with the most pronounced calendar effects.
       </p>
 
       {/* Cross-factor seasonality */}

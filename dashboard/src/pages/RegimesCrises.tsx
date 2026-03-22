@@ -35,7 +35,7 @@ export default function RegimesCrises() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        How did each factor perform during major market crises?
+        Factor performance during 9 major market crises (Great Depression, Black Monday, GFC, COVID, etc.). Identifies which factors are crisis hedges and which ones blow up. The cross-crisis heatmap shows consistency — a factor that protects in one crisis but crashes in another is less reliable than one with stable crisis performance.
       </p>
 
       <div className="flex flex-wrap gap-2">

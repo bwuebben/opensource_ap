@@ -41,7 +41,7 @@ export default function RecentPerformance() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <p className="text-sm text-[#94a3b8]">
-          Factor performance leaderboard as of <span className="text-[#f1f5f9] font-mono">{data.as_of}</span>
+          Factor performance leaderboard over recent windows (1, 3, 6, and 12 months). Shows which factors are working right now and which are in drawdown. Useful for momentum-based factor timing or simply staying current on the factor landscape. Data as of <span className="text-[#f1f5f9] font-mono">{data.as_of}</span>.
         </p>
         <div className="flex gap-2">
           {(["ret_1m", "ret_3m", "ret_6m", "ret_12m"] as Period[]).map((p) => (

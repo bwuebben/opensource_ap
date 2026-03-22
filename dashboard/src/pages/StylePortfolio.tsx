@@ -253,8 +253,7 @@ export default function StylePortfolio() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Composite multi-style factor portfolio. Equal-weights the selected style returns each month.
-        Toggle styles to see how portfolio characteristics change.
+        Build a multi-style factor portfolio by toggling styles on and off. The portfolio equal-weights the selected style returns each month. Stats update live as you add or remove styles — useful for exploring how combining different factor themes (e.g., Value + Momentum + Quality) improves risk-adjusted returns.
       </p>
 
       {/* Style toggles */}

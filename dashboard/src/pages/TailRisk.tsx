@@ -42,8 +42,7 @@ export default function TailRisk() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Tail risk analysis: VaR, CVaR (Expected Shortfall), maximum drawdown duration,
-        and worst drawdown episodes for each factor.
+        Tail risk metrics for every factor: Value at Risk (VaR), Conditional VaR (Expected Shortfall), maximum drawdown, drawdown duration, and worst historical episodes. Helps distinguish factors that deliver steady returns from those with fat-tailed risk that can produce sudden large losses.
       </p>
 
       {/* VaR/CVaR scatter */}

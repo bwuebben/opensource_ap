@@ -209,8 +209,7 @@ export default function MacroDictionary() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-[#94a3b8]">
-        {Object.keys(meta).length} macro series with descriptions, sources, and transformations.
-        Search or filter below. Click a row to preview the series chart.
+        Searchable reference for all {Object.keys(meta).length} macro series with descriptions, units, sources, and transformation codes. Click any row to see an inline chart. Use "Fetch Custom FRED Series" at the bottom to download and preview any FRED ticker live — add it to the pipeline config to make it available across all dashboard pages.
       </p>
 
       {/* Search & filter */}

@@ -73,6 +73,10 @@ export default function AnnualReturns() {
 
   return (
     <div className="space-y-4">
+      <p className="text-sm text-[#94a3b8]">
+        Calendar-year returns for any factor, displayed as bar charts. Compare two factors side-by-side to see how they performed in the same years — useful for spotting diversification opportunities or understanding when a factor had its best and worst stretches.
+      </p>
+
       <div className="flex flex-wrap gap-3 items-center">
         <select
           value={activeFactor}

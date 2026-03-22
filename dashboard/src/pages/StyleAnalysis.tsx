@@ -97,8 +97,7 @@ export default function StyleAnalysis() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Equal-weighted composite returns across factor style groups.
-        Each style is the simple average of all available factor returns in that category each month.
+        Performance of 14 equal-weighted style groups (Value, Momentum, Quality, etc.). Each style is the simple average of all factor returns in that category each month. Compare cumulative returns, rolling Sharpe ratios, annual performance, and the correlation structure between styles to understand which themes drive returns and how they diversify.
       </p>
 
       {/* Style toggles */}

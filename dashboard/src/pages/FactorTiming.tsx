@@ -39,8 +39,7 @@ export default function FactorTiming() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Can you time factors using macro conditions? Shows factor Sharpe ratios conditional on
-        whether a macro variable is in its low, middle, or high tercile.
+        Can macro conditions predict which factors will do well? Shows factor Sharpe ratios conditional on whether a macro variable (e.g., industrial production, credit spreads) is in its low, middle, or high tercile. If a factor's Sharpe varies substantially across regimes, it suggests timing opportunities — or at least that the factor's returns are macro-dependent.
       </p>
 
       <div className="flex flex-wrap gap-3 items-center">

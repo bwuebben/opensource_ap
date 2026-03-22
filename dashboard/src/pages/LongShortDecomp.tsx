@@ -49,8 +49,7 @@ export default function LongShortDecomp() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-[#94a3b8]">
-        Does a factor's return come from the long side (top decile), short side (bottom decile), or both?
-        Factors driven by the short side may be harder to implement in practice.
+        Decomposes each factor's long-short return into its long leg (top decile, D10) and short leg (bottom decile, D1). Factors driven primarily by the short leg may be harder to capture in practice due to shorting costs and constraints. Factors driven by the long leg are more implementable for long-only investors.
       </p>
 
       <div className="grid grid-cols-3 gap-3">

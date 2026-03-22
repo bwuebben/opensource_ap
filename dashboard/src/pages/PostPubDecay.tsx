@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -19,7 +20,7 @@ interface DecayData {
 }
 
 async function loadDecay(): Promise<DecayData> {
-  const r = await fetch("/data/post_pub_decay.json");
+  const r = await fetch(dataUrl("post_pub_decay.json"));
   if (!r.ok) throw new Error("No decay data");
   return r.json();
 }

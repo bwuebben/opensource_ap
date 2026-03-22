@@ -3,7 +3,6 @@ import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
-import FactorName from "../components/FactorName";
 import Methodology, { MNote } from "../components/Methodology";
 import type { FactorStats, SignalDoc } from "../types";
 

@@ -1,9 +1,8 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadFactorStats } from "../dataLoader";
+import { loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
-import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface SeasonData {
@@ -13,7 +12,7 @@ interface SeasonData {
 }
 
 async function loadSeason(): Promise<SeasonData> {
-  const r = await fetch("/data/factor_seasonality.json");
+  const r = await fetch(dataUrl("factor_seasonality.json"));
   if (!r.ok) throw new Error("No seasonality data");
   return r.json();
 }
@@ -22,7 +21,7 @@ const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "S
 
 export default function Seasonality() {
   const { data, loading: l1 } = useData(useCallback(() => loadSeason(), []));
-  const { data: stats, loading: l2 } = useData(useCallback(() => loadFactorStats(), []));
+  const { loading: l2 } = useData(useCallback(() => loadFactorStats(), []));
   const [selectedFactors, setSelectedFactors] = useState(["Mom12m", "BM", "Size", "GP"]);
 
   // Top factors by seasonality strength (max-min monthly avg)
@@ -84,7 +83,7 @@ export default function Seasonality() {
           ))}
         </div>
         <Plot
-          data={selectedFactors.filter((f) => data.by_factor[f]).map((f, i) => ({
+          data={selectedFactors.filter((f) => data.by_factor[f]).map((f) => ({
             x: MONTH_LABELS,
             y: data.by_factor[f].map((v) => v * 100),
             type: "scatter" as const, mode: "lines+markers" as const,

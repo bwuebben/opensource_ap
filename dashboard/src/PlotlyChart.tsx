@@ -24,7 +24,7 @@ export default function Plot({ data, layout = {}, config = {}, style, onRelayout
     draw();
     const el = ref.current;
     if (el && onRelayoutRef.current) {
-      el.on("plotly_relayout", (e: Record<string, unknown>) => {
+      (el as unknown as { on: (event: string, cb: (e: Record<string, unknown>) => void) => void }).on("plotly_relayout", (e: Record<string, unknown>) => {
         onRelayoutRef.current?.(e);
       });
     }

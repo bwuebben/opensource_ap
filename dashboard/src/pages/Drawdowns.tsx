@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadDrawdowns, loadFactorStats } from "../dataLoader";
+import { loadDrawdowns, loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorSearch from "../components/FactorSearch";
 import FactorName from "../components/FactorName";
@@ -9,7 +9,7 @@ import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
 async function loadStyleDrawdowns(): Promise<Record<string, { dates: string[]; values: number[] }>> {
-  const r = await fetch("/data/style_drawdowns.json");
+  const r = await fetch(dataUrl("style_drawdowns.json"));
   if (!r.ok) return {};
   return r.json();
 }

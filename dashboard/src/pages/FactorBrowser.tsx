@@ -4,7 +4,7 @@ import { loadFactorStats, loadSignalDoc } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MNote } from "../components/Methodology";
-import type { FactorStats, SortDirection } from "../types";
+import type { FactorStats, SignalDoc, SortDirection } from "../types";
 
 type SortKey = keyof FactorStats;
 
@@ -18,7 +18,7 @@ export default function FactorBrowser() {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const signalLookup = useMemo(() => {
-    const m: Record<string, (typeof signalDoc extends (infer T)[] ? T : never)> = {};
+    const m: Record<string, SignalDoc> = {};
     if (signalDoc) {
       for (const s of signalDoc) {
         if (s.Acronym) m[s.Acronym] = s;

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -15,7 +16,7 @@ interface DecompData {
 }
 
 async function loadDecomp(): Promise<DecompData> {
-  const r = await fetch("/data/long_short_decomp.json");
+  const r = await fetch(dataUrl("long_short_decomp.json"));
   if (!r.ok) throw new Error("No decomposition data");
   return r.json();
 }

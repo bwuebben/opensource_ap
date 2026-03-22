@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadCorrelation } from "../dataLoader";
+import { loadCorrelation, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
@@ -11,7 +11,7 @@ interface CorrData {
 }
 
 async function loadStyleCorrelation(): Promise<CorrData | null> {
-  const r = await fetch("/data/style_correlation.json");
+  const r = await fetch(dataUrl("style_correlation.json"));
   if (!r.ok) return null;
   return r.json();
 }

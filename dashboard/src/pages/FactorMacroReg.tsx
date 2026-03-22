@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadMonthlyReturns, loadFactorStats } from "../dataLoader";
+import { loadMonthlyReturns, loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -18,13 +18,13 @@ interface ReturnSeries {
 }
 
 async function loadMacro(): Promise<Record<string, MacroSeries>> {
-  const r = await fetch("/data/macro_series.json");
+  const r = await fetch(dataUrl("macro_series.json"));
   if (!r.ok) throw new Error("No macro data");
   return r.json();
 }
 
 async function loadStyleReturns(): Promise<Record<string, ReturnSeries>> {
-  const r = await fetch("/data/style_returns.json");
+  const r = await fetch(dataUrl("style_returns.json"));
   if (!r.ok) return {};
   return r.json();
 }

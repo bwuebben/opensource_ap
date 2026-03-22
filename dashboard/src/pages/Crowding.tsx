@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
@@ -11,7 +12,7 @@ interface CrowdingData {
 }
 
 async function loadCrowding(): Promise<CrowdingData> {
-  const r = await fetch("/data/rolling_correlations.json");
+  const r = await fetch(dataUrl("rolling_correlations.json"));
   if (!r.ok) throw new Error("No crowding data");
   return r.json();
 }

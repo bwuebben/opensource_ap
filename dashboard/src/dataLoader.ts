@@ -7,7 +7,11 @@ import type {
   Metadata,
 } from "./types";
 
-const BASE_URL = "/data";
+const BASE_URL = `${import.meta.env.BASE_URL}data`;
+
+export function dataUrl(filename: string): string {
+  return `${BASE_URL}/${filename}`;
+}
 
 async function fetchJson<T>(filename: string): Promise<T> {
   const resp = await fetch(`${BASE_URL}/${filename}`);

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -11,7 +12,7 @@ interface RecentData {
 }
 
 async function loadRecent(): Promise<RecentData> {
-  const r = await fetch("/data/recent_performance.json");
+  const r = await fetch(dataUrl("recent_performance.json"));
   if (!r.ok) throw new Error("No recent data");
   return r.json();
 }
@@ -21,7 +22,7 @@ type Period = "ret_1m" | "ret_3m" | "ret_6m" | "ret_12m";
 export default function RecentPerformance() {
   const { data, loading } = useData(useCallback(() => loadRecent(), []));
   const [period, setPeriod] = useState<Period>("ret_12m");
-  const [showN, setShowN] = useState(20);
+  const [showN] = useState(20);
 
   const sorted = useMemo(() => {
     if (!data) return [];

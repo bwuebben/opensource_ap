@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadMonthlyReturns, loadFactorStats } from "../dataLoader";
+import { loadMonthlyReturns, loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorSearch from "../components/FactorSearch";
 import { getColor } from "../chartColors";
@@ -13,7 +13,7 @@ interface ReturnSeries {
 }
 
 async function loadStyleReturns(): Promise<Record<string, ReturnSeries>> {
-  const r = await fetch("/data/style_returns.json");
+  const r = await fetch(dataUrl("style_returns.json"));
   if (!r.ok) return {};
   return r.json();
 }

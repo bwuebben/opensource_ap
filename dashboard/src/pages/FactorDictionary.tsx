@@ -44,8 +44,8 @@ export default function FactorDictionary() {
           s.Acronym?.toLowerCase().includes(q) ||
           s.LongDescription?.toLowerCase().includes(q) ||
           s.Authors?.toLowerCase().includes(q) ||
-          s["Detailed Definition"]?.toLowerCase().includes(q) ||
-          s["Evidence Summary"]?.toLowerCase().includes(q)
+          (s["Detailed Definition"] as string | undefined)?.toLowerCase().includes(q) ||
+          (s["Evidence Summary"] as string | undefined)?.toLowerCase().includes(q)
       );
     }
 

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MNote } from "../components/Methodology";
@@ -16,7 +17,7 @@ interface RepData {
 }
 
 async function loadRep(): Promise<RepData> {
-  const r = await fetch("/data/replication_tracker.json");
+  const r = await fetch(dataUrl("replication_tracker.json"));
   if (!r.ok) throw new Error("No replication data");
   return r.json();
 }

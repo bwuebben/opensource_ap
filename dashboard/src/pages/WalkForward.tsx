@@ -1,9 +1,8 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
-import type { TimeSeries } from "../types";
 import Methodology, { MNote } from "../components/Methodology";
 
 interface WalkForwardData {

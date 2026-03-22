@@ -3,6 +3,7 @@ import { useCallback, useRef } from "react";
 import Plotly from "plotly.js-dist-min";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
@@ -23,7 +24,7 @@ interface FMomData {
 }
 
 async function loadFMom(): Promise<FMomData> {
-  const r = await fetch("/data/factor_momentum.json");
+  const r = await fetch(dataUrl("factor_momentum.json"));
   if (!r.ok) throw new Error("No factor momentum data");
   return r.json();
 }

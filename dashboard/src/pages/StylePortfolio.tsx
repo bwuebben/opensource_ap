@@ -5,7 +5,6 @@ import {
   loadStyleReturns,
   loadStyleStats,
   loadStyleCorrelation,
-  type StyleStats,
 } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import type { TimeSeries } from "../types";
@@ -157,10 +156,9 @@ function computeStats(returns: number[], dates: string[]): PortfolioStats {
 export default function StylePortfolio() {
   const { data: styleReturns, loading: l1 } = useData(useCallback(() => loadStyleReturns(), []));
   const { data: styleStats, loading: l2 } = useData(useCallback(() => loadStyleStats(), []));
-  const { data: corr, loading: l3 } = useData(useCallback(() => loadStyleCorrelation(), []));
+  const { loading: l3 } = useData(useCallback(() => loadStyleCorrelation(), []));
   const [selectedStyles, setSelectedStyles] = useState<string[]>(DEFAULT_STYLES);
   const [logScale, setLogScale] = useState(true);
-  const [showDrawdown, setShowDrawdown] = useState(false);
 
   const allStyles = useMemo(() => {
     if (!styleStats) return [];
@@ -262,7 +260,6 @@ export default function StylePortfolio() {
         {allStyles.map((style) => {
           const isActive = selectedStyles.includes(style);
           const color = STYLE_COLORS[style] || "#94a3b8";
-          const s = styleStats[style];
           return (
             <button
               key={style}

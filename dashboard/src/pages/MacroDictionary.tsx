@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 interface MacroSeries {
@@ -23,19 +24,19 @@ interface MacroMeta {
 }
 
 async function loadMacro(): Promise<Record<string, MacroSeries>> {
-  const r = await fetch("/data/macro_series.json");
+  const r = await fetch(dataUrl("macro_series.json"));
   if (!r.ok) throw new Error("No macro data");
   return r.json();
 }
 
 async function loadMacroMeta(): Promise<Record<string, MacroMeta>> {
-  const r = await fetch("/data/macro_metadata.json");
+  const r = await fetch(dataUrl("macro_metadata.json"));
   if (!r.ok) throw new Error("No macro metadata");
   return r.json();
 }
 
 async function loadRecessions(): Promise<{ periods: { start: string; end: string }[] }> {
-  const r = await fetch("/data/nber_recessions.json");
+  const r = await fetch(dataUrl("nber_recessions.json"));
   if (!r.ok) return { periods: [] };
   return r.json();
 }

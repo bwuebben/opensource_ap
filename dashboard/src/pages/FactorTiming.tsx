@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
@@ -11,7 +12,7 @@ interface TimingData {
 }
 
 async function loadTiming(): Promise<TimingData> {
-  const r = await fetch("/data/factor_timing.json");
+  const r = await fetch(dataUrl("factor_timing.json"));
   if (!r.ok) throw new Error("No timing data");
   return r.json();
 }

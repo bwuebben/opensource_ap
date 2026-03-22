@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -11,7 +12,7 @@ interface DecadeData {
 }
 
 async function loadDecades(): Promise<DecadeData> {
-  const r = await fetch("/data/decade_performance.json");
+  const r = await fetch(dataUrl("decade_performance.json"));
   if (!r.ok) throw new Error("No decade data");
   return r.json();
 }

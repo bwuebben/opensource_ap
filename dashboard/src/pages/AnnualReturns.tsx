@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadAnnualReturns, loadFactorStats } from "../dataLoader";
+import { loadAnnualReturns, loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
@@ -12,7 +12,7 @@ interface AnnualSeries {
 }
 
 async function loadStyleAnnual(): Promise<Record<string, AnnualSeries>> {
-  const r = await fetch("/data/style_annual.json");
+  const r = await fetch(dataUrl("style_annual.json"));
   if (!r.ok) return {};
   return r.json();
 }
@@ -53,7 +53,7 @@ export default function AnnualReturns() {
 
   const data1 = allData[activeFactor];
 
-  const traces: Plotly.Data[] = [
+  const traces: Record<string, unknown>[] = [
     {
       x: data1.years.map(String),
       y: data1.values.map((v) => v * 100),

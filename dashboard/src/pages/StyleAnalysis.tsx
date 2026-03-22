@@ -11,7 +11,6 @@ import {
 } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
-import { getColor } from "../chartColors";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 const STYLE_COLORS: Record<string, string> = {
@@ -356,7 +355,7 @@ export default function StyleAnalysis() {
 }
 
 function DiversificationInsight({
-  stats,
+  stats: _stats,
   corr,
 }: {
   stats: Record<string, { sharpe_ratio: number; ann_return: number; ann_volatility: number; name: string }>;

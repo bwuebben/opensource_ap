@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
@@ -14,7 +15,7 @@ interface TailData {
 }
 
 async function loadTail(): Promise<TailData> {
-  const r = await fetch("/data/tail_risk.json");
+  const r = await fetch(dataUrl("tail_risk.json"));
   if (!r.ok) throw new Error("No tail risk data");
   return r.json();
 }

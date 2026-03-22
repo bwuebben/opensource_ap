@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
-import { loadCumulativeReturns, loadFactorStats } from "../dataLoader";
+import { loadCumulativeReturns, loadFactorStats, dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
 import FactorSearch from "../components/FactorSearch";
 import FactorName from "../components/FactorName";
@@ -9,7 +9,7 @@ import Methodology, { MathBlock, MNote } from "../components/Methodology";
 import { getColor } from "../chartColors";
 
 async function loadStyleCumulative(): Promise<Record<string, { dates: string[]; values: number[] }>> {
-  const r = await fetch("/data/style_cumulative.json");
+  const r = await fetch(dataUrl("style_cumulative.json"));
   if (!r.ok) return {};
   return r.json();
 }

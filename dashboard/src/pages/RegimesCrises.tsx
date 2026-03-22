@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import Plot from "../PlotlyChart";
 import { useData } from "../hooks";
+import { dataUrl } from "../dataLoader";
 import LoadingSpinner from "../components/LoadingSpinner";
-import FactorName from "../components/FactorName";
 import Methodology, { MathBlock, MNote } from "../components/Methodology";
 
 interface CrisisData {
@@ -11,7 +11,7 @@ interface CrisisData {
 }
 
 async function loadCrisis(): Promise<CrisisData> {
-  const r = await fetch("/data/crisis_performance.json");
+  const r = await fetch(dataUrl("crisis_performance.json"));
   if (!r.ok) throw new Error("No crisis data");
   return r.json();
 }
@@ -19,7 +19,7 @@ async function loadCrisis(): Promise<CrisisData> {
 export default function RegimesCrises() {
   const { data, loading } = useData(useCallback(() => loadCrisis(), []));
   const [selectedCrisis, setSelectedCrisis] = useState(0);
-  const [sortBy, setSortBy] = useState<"return" | "name">("return");
+  const [sortBy] = useState<"return" | "name">("return");
 
   if (loading) return <LoadingSpinner />;
   if (!data) return <div className="text-red-400">No crisis data. Run compute_research.py.</div>;

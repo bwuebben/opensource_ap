@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+data_pipeline/.venv/
+
+# Build output
+dashboard/dist/
+
+# Data pipeline cache (raw downloads, large files)
+data_pipeline/cache/*.parquet
+data_pipeline/cache/*.csv
+data_pipeline/cache/fred_md_enriched_meta.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environment variables
+.env
+.env.local

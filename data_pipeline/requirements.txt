@@ -1,0 +1,3 @@
+openassetpricing
+pandas
+numpy

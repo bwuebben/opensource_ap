@@ -1,0 +1,122 @@
+import { useState, useCallback } from "react";
+import Plot from "../PlotlyChart";
+import { useData } from "../hooks";
+import { loadDrawdowns, loadFactorStats } from "../dataLoader";
+import LoadingSpinner from "../components/LoadingSpinner";
+import FactorSearch from "../components/FactorSearch";
+import FactorName from "../components/FactorName";
+import { getColor } from "../chartColors";
+
+const DEFAULT_FACTORS = ["Mom12m", "BM", "Size"];
+
+export default function Drawdowns() {
+  const { data: drawdowns, loading: l1 } = useData(
+    useCallback(() => loadDrawdowns(), [])
+  );
+  const { data: stats, loading: l2 } = useData(
+    useCallback(() => loadFactorStats(), [])
+  );
+  const [selected, setSelected] = useState<string[]>(DEFAULT_FACTORS);
+
+  if (l1 || l2) return <LoadingSpinner />;
+  if (!drawdowns || !stats) return <div className="text-red-400">No data</div>;
+
+  const allFactors = Object.keys(drawdowns).sort();
+  const validSelected = selected.filter((f) => drawdowns[f]);
+
+  function handleToggle(factor: string) {
+    setSelected((prev) =>
+      prev.includes(factor) ? prev.filter((f) => f !== factor) : [...prev, factor]
+    );
+  }
+
+  const traces = validSelected.map((f, i) => ({
+    x: drawdowns[f].dates,
+    y: drawdowns[f].values.map((v) => v * 100),
+    type: "scatter" as const,
+    mode: "lines" as const,
+    name: f,
+    fill: "tozeroy" as const,
+    line: { color: getColor(i), width: 1 },
+    fillcolor: getColor(i) + "20",
+  }));
+
+  // Worst drawdowns table
+  const worstDD = validSelected
+    .map((f) => ({
+      name: f,
+      maxDD: stats[f]?.max_drawdown ?? 0,
+      ann_ret: stats[f]?.ann_return ?? 0,
+      sharpe: stats[f]?.sharpe_ratio ?? 0,
+    }))
+    .sort((a, b) => a.maxDD - b.maxDD);
+
+  return (
+    <div className="space-y-4">
+      <FactorSearch
+        factors={allFactors}
+        selected={validSelected}
+        onToggle={handleToggle}
+        placeholder="Add factors to view drawdowns..."
+        maxSelect={8}
+      />
+
+      <div className="bg-[#1e293b] rounded-lg p-4 border border-[#334155]">
+        <h3 className="text-sm font-semibold text-[#f1f5f9] mb-2">Drawdown Chart</h3>
+        <Plot
+          data={traces}
+          layout={{
+            height: 450,
+            margin: { t: 10, b: 50, l: 60, r: 20 },
+            paper_bgcolor: "transparent",
+            plot_bgcolor: "transparent",
+            font: { color: "#94a3b8", size: 11 },
+            xaxis: { gridcolor: "#334155", type: "date" },
+            yaxis: {
+              title: "Drawdown (%)",
+              gridcolor: "#334155",
+              rangemode: "nonpositive",
+            },
+            legend: { orientation: "h", y: -0.2, font: { size: 10 } },
+            hovermode: "x unified",
+          }}
+          config={{ responsive: true }}
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      {worstDD.length > 0 && (
+        <div className="overflow-x-auto rounded-lg border border-[#334155]">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-[#1e293b]">
+                <th className="px-3 py-2 text-left text-xs text-[#94a3b8]">Factor</th>
+                <th className="px-3 py-2 text-right text-xs text-[#94a3b8]">Max Drawdown</th>
+                <th className="px-3 py-2 text-right text-xs text-[#94a3b8]">Ann. Return</th>
+                <th className="px-3 py-2 text-right text-xs text-[#94a3b8]">Sharpe</th>
+                <th className="px-3 py-2 text-right text-xs text-[#94a3b8]">Return/DD</th>
+              </tr>
+            </thead>
+            <tbody>
+              {worstDD.map((f) => (
+                <tr key={f.name} className="border-t border-[#334155]">
+                  <td className="px-3 py-2"><FactorName name={f.name} /></td>
+                  <td className="px-3 py-2 text-right text-[#ef4444]">
+                    {(f.maxDD * 100).toFixed(1)}%
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {(f.ann_ret * 100).toFixed(2)}%
+                  </td>
+                  <td className="px-3 py-2 text-right">{f.sharpe.toFixed(3)}</td>
+                  <td className="px-3 py-2 text-right">
+                    {f.maxDD !== 0 ? Math.abs(f.ann_ret / f.maxDD).toFixed(2) : "N/A"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

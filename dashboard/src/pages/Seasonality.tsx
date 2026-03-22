@@ -25,11 +25,9 @@ export default function Seasonality() {
   const { data: stats, loading: l2 } = useData(useCallback(() => loadFactorStats(), []));
   const [selectedFactors, setSelectedFactors] = useState(["Mom12m", "BM", "Size", "GP"]);
 
-  if (l1 || l2) return <LoadingSpinner />;
-  if (!data) return <div className="text-red-400">No seasonality data.</div>;
-
   // Top factors by seasonality strength (max-min monthly avg)
   const seasonStrength = useMemo(() => {
+    if (!data) return [];
     return Object.entries(data.by_factor)
       .map(([name, vals]) => {
         const max = Math.max(...vals);
@@ -38,6 +36,9 @@ export default function Seasonality() {
       })
       .sort((a, b) => b.range - a.range);
   }, [data]);
+
+  if (l1 || l2) return <LoadingSpinner />;
+  if (!data) return <div className="text-red-400">No seasonality data.</div>;
 
   return (
     <div className="space-y-6">
